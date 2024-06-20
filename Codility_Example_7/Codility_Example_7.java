@@ -1,12 +1,14 @@
 class Untitled {
 	public static void main(String[] args) {
 		Solution sol = new Solution();
-		String sam = "XXYYYYYYY";
-		String[] exp = sol.splitSame(sam);
+		String sam = "xyyyx";
+//		String[] exp = sol.splitSame(sam);
+		int res = sol.findSplitIndex(sam);
+		System.out.println(res);
 	}
 }
 class Solution {
-	public String[] splitSame(String s1){
+	public int findSplitIndex(String s1){
 		int leftX = 0;
 		int rightY = 0;
 		int rightX = 0;
@@ -17,12 +19,12 @@ class Solution {
 			if (startIndex > endIndex){
 				break;
 			}
-			if (s1.charAt(startIndex) == 'X'){
+			if (s1.charAt(startIndex) == 'x'){
 				leftX++;
 			} else {
 				leftY++;
 			}
-			if (s1.charAt(endIndex) == 'Y'){
+			if (s1.charAt(endIndex) == 'y'){
 				rightY++;
 			} else {
 				rightX++;
@@ -31,9 +33,27 @@ class Solution {
 			startIndex++;
 			endIndex--;
 		}
+		int splitIndex = 0;
+		int requiredSplit = 0;
+		int reqCount = 0;
+		if (leftX > rightY){
+			requiredSplit = rightY;
+		} else if (rightY >= leftX){
+			requiredSplit = leftX;
+		}
 		
+		if (leftX == rightX && leftY == rightY){
+			return -1;
+		}
 		
-		String[] res = {"X","Y"};
-		return res;
+		int index = 0;
+		while (requiredSplit != reqCount){
+			if (s1.charAt(splitIndex) == 'x'){
+				reqCount++;
+			}
+			splitIndex++;
+		}
+		
+		return splitIndex;
 	}
 }

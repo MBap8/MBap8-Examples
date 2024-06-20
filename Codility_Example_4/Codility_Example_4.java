@@ -3,7 +3,7 @@ import java.util.*;
 class Untitled {
 	public static void main(String[] args) {
 		Solution sol = new Solution();
-		int[] sample = {1,5,9};
+		int[] sample = {2,7,2,9,8};
 		int res = sol.roomsCalc(sample);
 		System.out.println(res);
 	}
@@ -11,37 +11,33 @@ class Untitled {
 
 class Solution {
 	public int roomsCalc(int[] pref){
-		int minRooms = pref[0];
-		int rooms = 1;
-		int oneRoomCalc = 1;
-		ArrayList<Integer> roomsCheck = new ArrayList<>();
-//		ArrayList<Integer> prefs = new ArrayList<>();
-//		ArrayList<Integer> room = new ArrayList<>();
-//		room.add(1);
-//		prefs.add(pref[0]);
-//		int incompleteRoom = 0;
+		Arrays.sort(pref);
+		ArrayList<Integer> prefs = new ArrayList<>();
+		int fullRoom = 0;
+		prefs.add(pref[0] - 1);
+		int prevRoom = 0;
 		for (int i = 1; i < pref.length; i++) {
-			if (pref[i] <= minRooms){
-				if (minRooms > pref[i]){
-					rooms++;
-				} else {
-					roomsCheck.add(oneRoomCalc + 1);
-					oneRoomCalc = 0;
+			while (prefs.get(fullRoom) == 0){
+				if (fullRoom + 1 >= prefs.size()){
+					break;
 				}
+				fullRoom++;
 			}
+			if (pref[i] == 1){
+				prefs.add(0);
+			} else if (prefs.get(fullRoom) > 0){
+				if (prefs.get(fullRoom) > pref[i]){
+					prefs.remove(fullRoom);
+					prefs.add(fullRoom, pref[i] - 1);
+				} else {
+					int removed = prefs.remove(fullRoom);
+					prefs.add(fullRoom, removed - 1);
+				}
+			} else {
+				prefs.add(pref[i] - 1);
+			}
+			
 		}
-//		for (int i = 1; i < pref.length; i++) {
-//				if (oneRoomCalc + 1 <= pref[i] && minRooms >= oneRoomCalc + 1){
-//					if (minRooms > pref[i]){
-//						minRooms = pref[i];
-//					} 
-//					oneRoomCalc++;
-//				} else {
-//					rooms++;
-//					minRooms = pref[i];
-//					oneRoomCalc = 1;
-//				}
-//		}
-		return rooms;
+		return prefs.size();
 	}
 }
