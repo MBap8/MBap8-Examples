@@ -23,7 +23,6 @@ class Result {
 
     public static List<Integer> dynamicArray(int n, List<List<Integer>> queries) {
     
-
     }
 
 }
